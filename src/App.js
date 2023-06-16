@@ -30,13 +30,33 @@ const App = () => {
     setTasks(updatedTasks);
   };
 
+  const updateDelete = (taskId) => {
+    const updatedTasks = tasks.map(task => {
+      if (task.id !== taskId) {
+        return {...task};
+      }
+    });
+
+    const filteredUpdatedData = updatedTasks.filter(function (element) {
+      return element !== undefined;
+    });
+
+    setTasks(filteredUpdatedData);
+  };
+
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <div>{<TaskList tasks={ tasks } updateComplete={updateComplete} />}</div>
+        <div>{<TaskList 
+                tasks={ tasks } 
+                updateComplete={updateComplete} 
+                updateDelete={updateDelete} 
+              />}
+        </div>
       </main>
     </div>
   );
