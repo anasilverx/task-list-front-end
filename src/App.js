@@ -16,10 +16,10 @@ const INITIAL_TASKS = [
 ];
 
 const App = () => {
-
+//tasks defined in useState is passed as prop to TaskList
   const [tasks, setTasks] = useState(INITIAL_TASKS);
 
-  const toggleComplete = (taskId) => {
+  const updateComplete = (taskId) => {
     const updatedTasks = tasks.map(task => {
       if (task.id === taskId) {
         task.isComplete = !task.isComplete;
@@ -36,7 +36,7 @@ const App = () => {
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <div>{<TaskList tasks={INITIAL_TASKS} toggleComplete={toggleComplete} />}</div>
+        <div>{<TaskList tasks={ tasks } updateComplete={updateComplete} />}</div>
       </main>
     </div>
   );
