@@ -3,23 +3,10 @@ import axios from 'axios';
 import TaskList from './components/TaskList.js';
 import './App.css';
 
-const TASK_URL = 'https://task-list-api-c17.onrender.com/tasks';
-// const INITIAL_TASKS = [
-//   {
-//     id: 1,
-//     title: 'Mow the lawn',
-//     isComplete: false,
-//   },
-//   {
-//     id: 2,
-//     title: 'Cook Pasta',
-//     isComplete: true,
-//   },
-// ];
+const TASK_URL = 'https://task-list-api-302r.onrender.com/tasks';
 
 const App = () => {
-//tasks defined in useState is passed as prop to TaskList
-  // const [tasks, setTasks] = useState(INITIAL_TASKS);
+// tasks defined in useState is passed as prop to TaskList
   const [tasks, setTasks] = useState([]);
 
   const updateComplete = (taskId) => {
@@ -32,20 +19,6 @@ const App = () => {
     
     setTasks(updatedTasks);
   };
-
-  // const updateDelete = (taskId) => {
-  //   const updatedTasks = tasks.map(task => {
-  //     if (task.id !== taskId) {
-  //       return {...task};
-  //     }
-  //   });
-
-  //   const filteredUpdatedData = updatedTasks.filter(function (element) {
-  //     return element !== undefined;
-  //   });
-
-  //   setTasks(filteredUpdatedData);
-  // };
 
   const getTasks = () => {
     axios
@@ -73,13 +46,16 @@ const App = () => {
 
   const updateDelete = (taskId) => {
     axios
-      .delete(`${URL}/${taskId}`)
+      .delete(`${TASK_URL}/${taskId}`)
       .then((response) => {
         console.log(response);
-        const newTasks = tasks.filter( (task) => {
-          task.id !== taskId;
-        });
-        
+
+        const newTasks = [];
+        for (let task of tasks) {
+          if (task.id !== taskId) {
+            newTasks.push(task);
+        }}
+      
         setTasks(newTasks);
       })
       .catch((error) => {
