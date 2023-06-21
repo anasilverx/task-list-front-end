@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import TaskList from './components/TaskList.js';
 import './App.css';
 
+const TASK_URL = 'https://task-list-api-302r.onrender.com/tasks';
 const INITIAL_TASKS = [
   {
     id: 1,
@@ -44,6 +46,29 @@ const App = () => {
     setTasks(filteredUpdatedData);
   };
 
+  const getTasks = () => {
+    axios
+      .get(TASK_URL)
+      .then((response) => {
+        const newTasks = response.data.map((task) => {
+          return {
+            'description': task.description,
+            'id': task.id,
+            'title': task.title,
+            'is_complete': task.is_complete,
+          };
+        });
+        setTasks(newTasks);
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        console.log(error.response.data);
+      });
+  };
+
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   return (
     <div className="App">
