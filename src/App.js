@@ -3,23 +3,24 @@ import axios from 'axios';
 import TaskList from './components/TaskList.js';
 import './App.css';
 
-const TASK_URL = 'https://task-list-api-302r.onrender.com/tasks';
-const INITIAL_TASKS = [
-  {
-    id: 1,
-    title: 'Mow the lawn',
-    isComplete: false,
-  },
-  {
-    id: 2,
-    title: 'Cook Pasta',
-    isComplete: true,
-  },
-];
+const TASK_URL = 'https://task-list-api-c17.onrender.com/tasks';
+// const INITIAL_TASKS = [
+//   {
+//     id: 1,
+//     title: 'Mow the lawn',
+//     isComplete: false,
+//   },
+//   {
+//     id: 2,
+//     title: 'Cook Pasta',
+//     isComplete: true,
+//   },
+// ];
 
 const App = () => {
 //tasks defined in useState is passed as prop to TaskList
-  const [tasks, setTasks] = useState(INITIAL_TASKS);
+  // const [tasks, setTasks] = useState(INITIAL_TASKS);
+  const [tasks, setTasks] = useState([]);
 
   const updateComplete = (taskId) => {
     const updatedTasks = tasks.map(task => {
@@ -32,19 +33,19 @@ const App = () => {
     setTasks(updatedTasks);
   };
 
-  const updateDelete = (taskId) => {
-    const updatedTasks = tasks.map(task => {
-      if (task.id !== taskId) {
-        return {...task};
-      }
-    });
+  // const updateDelete = (taskId) => {
+  //   const updatedTasks = tasks.map(task => {
+  //     if (task.id !== taskId) {
+  //       return {...task};
+  //     }
+  //   });
 
-    const filteredUpdatedData = updatedTasks.filter(function (element) {
-      return element !== undefined;
-    });
+  //   const filteredUpdatedData = updatedTasks.filter(function (element) {
+  //     return element !== undefined;
+  //   });
 
-    setTasks(filteredUpdatedData);
-  };
+  //   setTasks(filteredUpdatedData);
+  // };
 
   const getTasks = () => {
     axios
@@ -55,7 +56,7 @@ const App = () => {
             'description': task.description,
             'id': task.id,
             'title': task.title,
-            'is_complete': task.is_complete,
+            'isComplete': task.is_complete,
           };
         });
         setTasks(newTasks);
@@ -69,6 +70,24 @@ const App = () => {
   useEffect(() => {
     getTasks();
   }, []);
+
+  const updateDelete = (taskId) => {
+    axios
+      .delete(`${URL}/${taskId}`)
+      .then((response) => {
+        console.log(response);
+        const newTasks = tasks.filter( (task) => {
+          task.id !== taskId;
+        });
+        
+        setTasks(newTasks);
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        console.log(error.response.data);
+      });
+  };
+  
 
   return (
     <div className="App">
