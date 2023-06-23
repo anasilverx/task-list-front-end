@@ -24,7 +24,7 @@ export default function NewTaskForm (props) {
   }
 
   return (
-    <div>
+    <div className='stack'>
       <h2>Create New Task</h2>
       <form onSubmit={ handleFormSubmit }> 
         <label htmlFor="taskTitle">Task Title:</label>
