@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TaskList from './components/TaskList.js';
+import NewTaskForm from './components/NewTaskForm.js';
 import './App.css';
 
 const TASK_URL = 'https://task-list-api-302r.onrender.com/tasks';
@@ -73,6 +74,15 @@ const App = () => {
       });
   };
   
+  const createNewTask = (newTask) => {
+    axios.post(`${TASK_URL}`, newTask)
+      .then( () => {
+        getTasks();
+      })
+      .catch( (error) => {
+        console.log(error);
+      });
+  };
 
 
 
@@ -88,6 +98,7 @@ const App = () => {
                 updateDelete={updateDelete} 
               />}
         </div>
+        <NewTaskForm createTaskCallback={ createNewTask } ></NewTaskForm>
       </main>
     </div>
   );
